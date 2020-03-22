@@ -1,23 +1,23 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-#Алгоритм машинного обучения
+#Machine learning algorithm
 from sklearn.ensemble import RandomForestRegressor
 from sklearn import ensemble
-#kNN – метод ближайших соседей
+#kNN – k-nearest neighbors algorithm
 from sklearn.neighbors import KNeighborsRegressor
-# Отключение предупреждений Pandas
+# Disabling alerts Pandas
 pd.options.mode.chained_assignment = None
-#Используется для записи модели в файл
+#Used to write the model to a file
 import joblib
 from sklearn.metrics import r2_score
 
-data = pd.read_csv("train_data_200k.csv")
+data = pd.read_csv("data.csv")# open csv
 
-X = data.drop(['target1', 'target2', 'target3', 'target4', 'Unnamed: 0'], axis=1)  # Выбрасываем столбцы target и Unnamed: 0
+X = data.drop(['target1', 'target2', 'target3', 'target4', 'Unnamed: 0'], axis=1)  # Throw out the columns target and Unnamed: 0
 y = data[['target1', 'target2', 'target3','target4']]
 X.fillna(X.median(axis=0), axis=0, inplace = True)
-y.fillna(0, inplace = True)
+y.fillna(y.median, inplace = True)
 feature_names = X.columns
 print (feature_names)
 #print (X.head)
@@ -30,7 +30,7 @@ N_test,  _ = X_test.shape
 print (N_train, N_test)
 
 
-#kNN – метод ближайших соседей
+#kNN – k-nearest neighbors algorithm
 knn = KNeighborsRegressor()
 knn.fit(X_train, y_train)
 
@@ -54,6 +54,7 @@ err_test  = np.mean(y_test  != rf.predict(X_test))
 print (err_train, err_test)
 
 print('Model Accuracy:', rf.score(X, y))
-#joblib.dump(rf, "train_model", compress=9)# Запись модели в файл
-'''
+#joblib.dump(rf, "train_model", compress=9)# Writing a model to a file
+
 #print('Model Accuracy:', knn.score(X, y))
+'''
